@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from 'styles/Home.module.css'
 
 const Home: NextPage = () => {
   return (
@@ -11,9 +10,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="max-w-6xl mx-auto h-[100vh]">
-        <button className="rounded-full bg-yellow-400 py-3 px-5 font-bold hover:bg-yellow-500">카카오 로그인</button>
-      </div>
+
 
     </div>
   )
