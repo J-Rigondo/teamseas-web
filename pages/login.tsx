@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "react-query";
 import { request, gql } from "graphql-request";
 import { useForm } from "react-hook-form";
 import GoogleLogin from "react-google-login";
+import axios from "axios";
 
 interface IForm {
   email: string;
@@ -72,22 +73,41 @@ const Login: NextPage = () => {
     );
   });
 
-  const onGoogleLogin = async () => {
-    let timer = null;
-
-    window.open("http://localhost:4000/auth/google/login");
-  };
+  const localLoginMutation = useMutation(
+    (form: IForm) => {
+      return axios.post("http://localhost:4000/auth/login", form, {
+        withCredentials: true,
+      });
+    },
+    {
+      onSuccess: (result) => {
+        const { data } = result;
+        console.log(data);
+      },
+    }
+  );
 
   const onSubmit = (formData: IForm) => {
-    loginMutation.mutate(
-      { loginUserInput: { ...formData } },
-      { onSuccess: (data) => console.log(data) }
-    );
+    // loginMutation.mutate(
+    //   { loginUserInput: { ...formData } },
+    //   { onSuccess: (data) => console.log(data) }
+    // );
+
+    localLoginMutation.mutate(formData);
   };
 
+  //graphql 방식
   const responseGoogle = (res: any) => {
     console.log(res);
     googleMutation.mutate(res.tokenId);
+  };
+
+  const onGoogleLogin = async () => {
+    window.location.href = "http://localhost:4000/auth/google/login";
+  };
+
+  const onKakaoLogin = () => {
+    window.location.href = "http://localhost:4000/auth/kakao/login";
   };
 
   return (
@@ -97,13 +117,13 @@ const Login: NextPage = () => {
           <h1 className="font-bold text-center text-3xl my-14">로그인</h1>
           <input
             {...register("email", { required: true })}
-            className="border border-gray-200 py-3 px-4 p rounded-lg w-full"
+            className="border border-gray-200 py-3 px-4 p rounded-lg w-full focus:outline-none focus:border-teal-600 focus:ring-teal-600 focus:ring-1"
             type="text"
             placeholder="이메일"
           />
           <input
             {...register("password", { required: true })}
-            className="border border-gray-200 py-3 px-4 rounded-lg w-full my-4"
+            className="border border-gray-200 py-3 px-4 rounded-lg w-full my-4 focus:outline-none focus:border-teal-600 focus:ring-teal-600 focus:ring-1"
             type="password"
             placeholder="비밀번호"
           />
@@ -147,7 +167,10 @@ const Login: NextPage = () => {
             onFailure={responseGoogle}
             cookiePolicy={"single_host_origin"}
           />
-          <button className="flex items-center justify-center rounded-md p-3 bg-yellow-400 shadow-md font-bold hover:bg-yellow-500">
+          <button
+            className="flex items-center justify-center rounded-md p-3 bg-yellow-400 shadow-md font-bold hover:bg-yellow-500"
+            onClick={onKakaoLogin}
+          >
             <RiKakaoTalkFill className="text-3xl" />
           </button>
           <button className="flex items-center justify-center rounded-md p-3  font-bold shadow-md bg-white hover:bg-gray-100">
