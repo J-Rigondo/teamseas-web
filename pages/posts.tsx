@@ -2,8 +2,9 @@ import { NextPage } from "next";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { gql, request } from "graphql-request";
 import ItemCard from "../components/item-card";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { FaAngleUp } from "react-icons/fa";
 
 interface IItemCard {
   id: number;
@@ -21,6 +22,7 @@ interface IAuthor {
 
 const PostsPage: NextPage = () => {
   const { ref, inView } = useInView();
+  const [showTopBtn, setShowTopBtn] = useState(false);
 
   const {
     isLoading,
@@ -75,6 +77,18 @@ const PostsPage: NextPage = () => {
     }
   }, [inView]);
 
+  useEffect(() => {
+    if (window !== undefined) {
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 400) {
+          setShowTopBtn(true);
+        } else {
+          setShowTopBtn(false);
+        }
+      });
+    }
+  }, []);
+
   // const { data, isLoading } = useQuery<{ posts: IItemCard[] }>("posts1", () => {
   //   return request(
   //     "http://localhost:4000/graphql",
@@ -101,8 +115,22 @@ const PostsPage: NextPage = () => {
   if (isLoading) return <div>...Loading</div>;
 
   return (
-    <div className="p-6">
-      <div className="mt-10 grid grid-cols-2 gap-6 px-4">
+    <div className="p-6 ">
+      <div className="mt-10 grid grid-cols-2 gap-6 px-4 relative">
+        {showTopBtn && (
+          <FaAngleUp
+            className="fixed bottom-10 left-[50%] text-lg rounded-full bg-teal-600 w-[50px] h-[50px] border-2 ring-2
+           ring-teal-600 cursor-pointer text-white hover:bg-teal-700 ease-in-out duration-300 transition
+
+           "
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            }}
+          />
+        )}
         {data?.pages.map((page) => (
           <React.Fragment key={page.posts.nextId ?? "last"}>
             {page.posts.posts.map((item: any) => (
