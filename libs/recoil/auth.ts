@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 interface IAuth {
   accessToken: string;
-  user: { name: string };
+  user: { username: string };
 }
 
 export const authAtom = atom<IAuth>({
@@ -10,7 +10,7 @@ export const authAtom = atom<IAuth>({
   default: {
     accessToken: "",
     user: {
-      name: "",
+      username: "",
     },
   },
 });

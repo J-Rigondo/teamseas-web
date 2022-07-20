@@ -16,6 +16,7 @@ const LoginContainer = () => {
 
         const res = await axios.get(`http://localhost:4000/auth/token/${id}`);
         console.log(res.data);
+        setter(res.data);
 
         router.replace("/");
       })();

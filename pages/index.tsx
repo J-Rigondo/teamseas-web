@@ -5,7 +5,7 @@ import { authAtom } from "../libs/recoil/auth";
 
 const Home: NextPage = () => {
   const value = useRecoilValue(authAtom);
-  console.log(value);
+  console.log("value", value);
 
   return (
     <div>
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
       <div className="max-w-xl mx-auto">
         <div className="p-4 flex justify-center items-center">main</div>
         <p>{value.accessToken}</p>
-        <p>{value.user.name}</p>
+        <p>{value.user.username}</p>
       </div>
     </div>
   );
