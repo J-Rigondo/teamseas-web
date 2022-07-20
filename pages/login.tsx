@@ -97,10 +97,10 @@ const Login: NextPage = () => {
   };
 
   //graphql 방식
-  const responseGoogle = (res: any) => {
-    console.log(res);
-    googleMutation.mutate(res.tokenId);
-  };
+  // const responseGoogle = (res: any) => {
+  //   console.log(res);
+  //   googleMutation.mutate(res.tokenId);
+  // };
 
   const onGoogleLogin = async () => {
     window.location.href = "http://localhost:4000/auth/google/login";
@@ -151,22 +151,22 @@ const Login: NextPage = () => {
           >
             <FcGoogle className="text-3xl" />
           </button>
-          <GoogleLogin
-            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
-            render={(renderProps) => (
-              <button
-                className="flex items-center justify-center rounded-md p-3 font-bold bg-white shadow-md hover:bg-gray-100"
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                <FcGoogle className="text-3xl" />
-              </button>
-            )}
-            buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={"single_host_origin"}
-          />
+          {/*<GoogleLogin*/}
+          {/*  clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}*/}
+          {/*  render={(renderProps) => (*/}
+          {/*    <button*/}
+          {/*      className="flex items-center justify-center rounded-md p-3 font-bold bg-white shadow-md hover:bg-gray-100"*/}
+          {/*      onClick={renderProps.onClick}*/}
+          {/*      disabled={renderProps.disabled}*/}
+          {/*    >*/}
+          {/*      <FcGoogle className="text-3xl" />*/}
+          {/*    </button>*/}
+          {/*  )}*/}
+          {/*  buttonText="Login"*/}
+          {/*  onSuccess={responseGoogle}*/}
+          {/*  onFailure={responseGoogle}*/}
+          {/*  cookiePolicy={"single_host_origin"}*/}
+          {/*/>*/}
           <button
             className="flex items-center justify-center rounded-md p-3 bg-yellow-400 shadow-md font-bold hover:bg-yellow-500"
             onClick={onKakaoLogin}

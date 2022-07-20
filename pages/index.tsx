@@ -1,7 +1,12 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useRecoilValue } from "recoil";
+import { authAtom } from "../libs/recoil/auth";
 
 const Home: NextPage = () => {
+  const value = useRecoilValue(authAtom);
+  console.log(value);
+
   return (
     <div>
       <Head>
@@ -10,10 +15,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-
-
+      <div className="max-w-xl mx-auto">
+        <div className="p-4 flex justify-center items-center">main</div>
+        <p>{value.accessToken}</p>
+        <p>{value.user.name}</p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
