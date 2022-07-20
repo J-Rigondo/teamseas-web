@@ -110,6 +110,10 @@ const Login: NextPage = () => {
     window.location.href = "http://localhost:4000/auth/kakao/login";
   };
 
+  const onKakaoGraphql = async () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`;
+  };
+
   return (
     <div className="flex items-center justify-center h-[100vh]">
       <div className="max-w-sm flex-1 py-5 px-12 shadow-md rounded-xl h-2/3 bg-gray-50">
@@ -170,6 +174,12 @@ const Login: NextPage = () => {
           <button
             className="flex items-center justify-center rounded-md p-3 bg-yellow-400 shadow-md font-bold hover:bg-yellow-500"
             onClick={onKakaoLogin}
+          >
+            <RiKakaoTalkFill className="text-3xl" />
+          </button>
+          <button
+            className="flex items-center justify-center rounded-md p-3 bg-yellow-400 shadow-md font-bold hover:bg-yellow-500"
+            onClick={onKakaoGraphql}
           >
             <RiKakaoTalkFill className="text-3xl" />
           </button>

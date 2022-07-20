@@ -1,13 +1,31 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { authAtom } from "../libs/recoil/auth";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const value = useRecoilValue(authAtom);
-  console.log("value", value);
+
+  const [auth, setAuth] = useRecoilState(authAtom);
+
+  const refreshFunc = async () => {
+    const result = await axios.get("http://localhost:4000/auth/refresh", {
+      withCredentials: true,
+    });
+
+    return result.data;
+  };
+
+  const { data } = useQuery("refresh", refreshFunc);
+
+  if (data) {
+    console.log(data);
+    setAuth(data);
+  }
 
   return (
     <div>
@@ -17,23 +35,23 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="max-w-xl mx-auto">
-        <div className="p-4">
-          <h1>main page</h1>
+      <div className="">
+        <div className="mt-10 p-4">
+          <h1 className="text-3xl font-bold my-4">main page</h1>
+          <div className="max-w-xl flex">
+            <span className="font-bold text-lg">access_token: </span>
+            <span className="overflow-scroll p-3">{auth?.accessToken}</span>
+          </div>
           <p>
-            <span className="font-bold text-lg">access_token:</span>{" "}
-            {value.accessToken}
-          </p>
-          <p>
-            <span className="font-bold text-lg">username:</span>{" "}
-            {value.user.username}
+            <span className="font-bold text-lg">username:</span>
+            {auth?.user?.username}
           </p>
         </div>
 
-        {!value.accessToken && (
+        {!auth?.accessToken && (
           <div className="flex justify-center">
             <button
-              className="rounded-md bg-teal-600 py-2 px-4 text-white"
+              className="w-40 rounded-md bg-teal-600 py-2 px-4 text-white hover:bg-teal-700"
               onClick={() => router.push("/login")}
             >
               로그인
