@@ -8,11 +8,13 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { NextPageWithLayout } from "pages/_app";
 import Layout from "components/layout";
+import { getRecoil } from "recoil-nexus";
 
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
 
   const [auth, setAuth] = useRecoilState(authAtom);
+  console.log("outer recoil", getRecoil(authAtom));
 
   return (
     <div>

@@ -4,6 +4,8 @@ import { FaUser } from "react-icons/fa";
 import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { getRecoil } from "recoil-nexus";
+import { graphQLClient } from "libs/gql/request";
 
 const Layout = ({ children }: React.PropsWithChildren<{}>) => {
   const [user, setUser] = useRecoilState(authAtom);
@@ -23,7 +25,12 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
     (async () => {
       try {
         const res = await refreshFunc();
+        console.log("setting user", res);
         setUser(res);
+        graphQLClient.setHeader(
+          "authorization",
+          `Bearer ${getRecoil(authAtom).accessToken}`
+        );
       } catch (e) {
         console.log(e);
         resetUser();
