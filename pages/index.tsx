@@ -3,29 +3,16 @@ import Head from "next/head";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { authAtom } from "../libs/recoil/auth";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { NextPageWithLayout } from "pages/_app";
+import Layout from "components/layout";
 
-const Home: NextPage = () => {
+const Home: NextPageWithLayout = () => {
   const router = useRouter();
 
   const [auth, setAuth] = useRecoilState(authAtom);
-
-  const refreshFunc = async () => {
-    const result = await axios.get("http://localhost:4000/auth/refresh", {
-      withCredentials: true,
-    });
-
-    return result.data;
-  };
-
-  const { data } = useQuery("refresh", refreshFunc);
-
-  if (data) {
-    console.log(data);
-    setAuth(data);
-  }
 
   return (
     <div>
@@ -35,9 +22,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="">
-        <div className="mt-10 p-4">
-          <h1 className="text-3xl font-bold my-4">main page</h1>
+      <div className="px-4">
+        <div className="my-10 p-4">
+          <h1 className="text-center text-3xl font-bold my-4">main page</h1>
           <div className="max-w-xl flex">
             <span className="font-bold text-lg">access_token: </span>
             <span className="overflow-scroll p-3">{auth?.accessToken}</span>
@@ -48,8 +35,8 @@ const Home: NextPage = () => {
           </p>
         </div>
 
-        {!auth?.accessToken && (
-          <div className="flex justify-center">
+        {!auth?.accessToken ? (
+          <div className="mt-16 flex justify-center">
             <button
               className="w-40 rounded-md bg-teal-600 py-2 px-4 text-white hover:bg-teal-700"
               onClick={() => router.push("/login")}
@@ -57,10 +44,21 @@ const Home: NextPage = () => {
               로그인
             </button>
           </div>
+        ) : (
+          <button
+            className="w-full px-5 py-2 rounded-full bg-teal-600 text-white font-bold"
+            onClick={() => router.push("/posts")}
+          >
+            POSTS
+          </button>
         )}
       </div>
     </div>
   );
+};
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default Home;

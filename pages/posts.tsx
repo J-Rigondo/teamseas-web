@@ -2,9 +2,11 @@ import { NextPage } from "next";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { gql, request } from "graphql-request";
 import ItemCard from "../components/item-card";
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { FaAngleUp } from "react-icons/fa";
+import { NextPageWithLayout } from "pages/_app";
+import Layout from "components/layout";
 
 interface IItemCard {
   id: number;
@@ -20,7 +22,7 @@ interface IAuthor {
   name: string;
 }
 
-const PostsPage: NextPage = () => {
+const PostsPage: NextPageWithLayout = () => {
   const { ref, inView } = useInView();
   const [showTopBtn, setShowTopBtn] = useState(false);
 
@@ -152,6 +154,10 @@ const PostsPage: NextPage = () => {
       </span>
     </div>
   );
+};
+
+PostsPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default PostsPage;

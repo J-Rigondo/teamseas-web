@@ -8,14 +8,22 @@ import { request, gql } from "graphql-request";
 import { useForm } from "react-hook-form";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
+import { ReactElement } from "react";
+import Layout from "components/layout";
+import { useSetRecoilState } from "recoil";
+import { authAtom } from "libs/recoil/auth";
 
 interface IForm {
   email: string;
   password: string;
 }
 
-const Login: NextPage = () => {
+const Login: NextPageWithLayout = () => {
   const { handleSubmit, register } = useForm<IForm>();
+  const router = useRouter();
+  const setUser = useSetRecoilState(authAtom);
 
   // const { data, isLoading } = useQuery("users", () => {
   //   return request(
@@ -83,6 +91,12 @@ const Login: NextPage = () => {
       onSuccess: (result) => {
         const { data } = result;
         console.log(data);
+        setUser(data);
+
+        router.push("/");
+      },
+      onError(err) {
+        console.log("error", err);
       },
     }
   );
@@ -193,6 +207,10 @@ const Login: NextPage = () => {
       </div>
     </div>
   );
+};
+
+Login.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default Login;
