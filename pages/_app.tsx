@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
 import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";
+import RecoilNexus from "recoil-nexus";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RecoilRoot>{getLayout(<Component {...pageProps} />)}</RecoilRoot>
+      <RecoilRoot>
+        <RecoilNexus />
+        {getLayout(<Component {...pageProps} />)}
+      </RecoilRoot>
     </QueryClientProvider>
   );
 }
