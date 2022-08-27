@@ -51,14 +51,12 @@ const PostDetailPage: NextPageWithLayout = () => {
             }
           }
         `,
-        { postId: +strId }
-        // { authorization: `Bearer ${accessToken}` }
+        { postId: +strId },
+        { authorization: `Bearer ${accessToken}` }
       );
     },
     { enabled: !!strId && !!accessToken }
   );
-
-  console.log(data);
 
   // const { data, isLoading } = useQuery<{ posts: IItemCard[] }>("posts1", () => {
   //   return request(
