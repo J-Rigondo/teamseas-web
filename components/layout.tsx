@@ -6,20 +6,29 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { getRecoil } from "recoil-nexus";
 import { graphQLClient } from "libs/gql/request";
+import {refreshFunc} from "../libs/api/auth";
+
+function storePathValues() {
+  const storage = globalThis?.sessionStorage;
+
+  if (!storage) return;
+
+  const prevPath = storage.getItem("currentPath") as string;
+
+  storage.setItem("prevPath", prevPath);
+  storage.setItem("currentPath", globalThis.location.pathname);
+}
 
 const Layout = ({ children }: React.PropsWithChildren<{}>) => {
   const [user, setUser] = useRecoilState(authAtom);
   const resetUser = useResetRecoilState(authAtom);
   const router = useRouter();
-  console.log(router);
 
-  const refreshFunc = async () => {
-    const result = await axios.get("http://localhost:4000/auth/refresh", {
-      withCredentials: true,
-    });
+  if(router) {
+    console.log(router)
+  }
 
-    return result.data;
-  };
+  // useEffect(() => storePathValues, [router.asPath]);
 
   useEffect(() => {
     (async () => {
@@ -29,14 +38,14 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
         setUser(res);
         graphQLClient.setHeader(
           "authorization",
-          `Bearer ${getRecoil(authAtom).accessToken}`
+          `Bearer ${user.accessToken}`
         );
       } catch (e) {
         console.log(e);
         resetUser();
       }
     })();
-  }, [router]);
+  }, []);
 
   const onLogout = async () => {
     try {
