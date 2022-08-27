@@ -1,7 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
 import {refreshFunc} from "./libs/api/auth";
-import {setRecoil} from "recoil-nexus";
-import {routeAtom} from "./libs/recoil/route";
 
 export async function middleware(request: NextRequest) {
   console.log('==================here is middleware=========================')

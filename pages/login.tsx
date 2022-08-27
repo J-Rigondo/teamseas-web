@@ -23,7 +23,12 @@ interface IForm {
 const Login: NextPageWithLayout = () => {
   const { handleSubmit, register } = useForm<IForm>();
   const router = useRouter();
+
+  const {query:{url}} = router;
+  const prevUrl = url as string;
+
   const setUser = useSetRecoilState(authAtom);
+
 
   // const { data, isLoading } = useQuery("users", () => {
   //   return request(
@@ -90,10 +95,9 @@ const Login: NextPageWithLayout = () => {
     {
       onSuccess: (result) => {
         const { data } = result;
-        console.log(data);
         setUser(data);
 
-        router.push("/");
+        router.push(prevUrl ? prevUrl : '/');
       },
       onError(err) {
         console.log("error", err);
