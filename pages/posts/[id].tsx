@@ -96,4 +96,8 @@ PostDetailPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
+PostDetailPage.authentication = {
+  loginOnly: true,
+};
+
 export default PostDetailPage;

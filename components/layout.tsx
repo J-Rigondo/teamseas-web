@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { getRecoil } from "recoil-nexus";
 import { graphQLClient } from "libs/gql/request";
-import {refreshFunc} from "../libs/api/auth";
+import { refreshFunc } from "../libs/api/auth";
 
 function storePathValues() {
   const storage = globalThis?.sessionStorage;
@@ -24,28 +24,11 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
   const resetUser = useResetRecoilState(authAtom);
   const router = useRouter();
 
-  if(router) {
-    console.log(router)
+  if (router) {
+    console.log(router);
   }
 
   // useEffect(() => storePathValues, [router.asPath]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await refreshFunc();
-        console.log("setting user", res);
-        setUser(res);
-        graphQLClient.setHeader(
-          "authorization",
-          `Bearer ${user.accessToken}`
-        );
-      } catch (e) {
-        console.log(e);
-        resetUser();
-      }
-    })();
-  }, []);
 
   const onLogout = async () => {
     try {
@@ -70,7 +53,7 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
         >
           TEAM SEAS
         </div>
-        {user.accessToken ? (
+        {user?.accessToken ? (
           <div className="flex items-center space-x-2">
             <div className="rounded-full p-2 bg-slate-100 border cursor-pointer hover:bg-slate-200">
               <FaUser className="text-teal-600  text-2xl" />

@@ -31,7 +31,7 @@ const Home: NextPageWithLayout = () => {
             <span className="overflow-scroll p-3">{auth?.accessToken}</span>
           </div>
           <p>
-            <span className="font-bold text-lg">username:</span>
+            <span className="font-bold text-lg">username: </span>
             {auth?.user?.username}
           </p>
         </div>
@@ -45,7 +45,7 @@ const Home: NextPageWithLayout = () => {
               로그인
             </button>
           </div>
-        ) }
+        )}
         <button
           className="mt-10 w-full px-5 py-2 rounded-full bg-teal-600 text-white font-bold"
           onClick={() => router.push("/posts")}
