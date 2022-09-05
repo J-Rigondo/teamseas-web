@@ -5,12 +5,7 @@ interface IAuth {
   user: { username: string };
 }
 
-export const authAtom = atom<IAuth>({
+export const authAtom = atom<IAuth | null>({
   key: "auth",
-  default: {
-    accessToken: "",
-    user: {
-      username: "",
-    },
-  },
+  default: null,
 });
