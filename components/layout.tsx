@@ -24,10 +24,6 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
   const resetUser = useResetRecoilState(authAtom);
   const router = useRouter();
 
-  if (router) {
-    console.log(router);
-  }
-
   // useEffect(() => storePathValues, [router.asPath]);
 
   const onLogout = async () => {

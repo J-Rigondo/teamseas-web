@@ -26,7 +26,7 @@ interface IAuthor {
 
 const PostDetailPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const { accessToken } = useRecoilValue(authAtom);
+  const auth = useRecoilValue(authAtom);
   const {
     query: { id },
   } = router;
@@ -52,10 +52,10 @@ const PostDetailPage: NextPageWithLayout = () => {
           }
         `,
         { postId: +strId },
-        { authorization: `Bearer ${accessToken}` }
+        { authorization: `Bearer ${auth?.accessToken}` }
       );
     },
-    { enabled: !!strId && !!accessToken }
+    { enabled: !!strId && !!auth?.accessToken }
   );
 
   // const { data, isLoading } = useQuery<{ posts: IItemCard[] }>("posts1", () => {
