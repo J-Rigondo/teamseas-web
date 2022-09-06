@@ -21,6 +21,7 @@ const PrivateRoute = ({
     if (user && !isLogin) {
       console.log("go to login");
       router.replace("/login");
+      // console.log(globalThis.location.pathname);
     }
   }, [user]);
 
