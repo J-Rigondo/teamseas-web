@@ -51,8 +51,7 @@ const PostDetailPage: NextPageWithLayout = () => {
             }
           }
         `,
-        { postId: +strId },
-        { authorization: `Bearer ${auth?.accessToken}` }
+        { postId: +strId }
       );
     },
     { enabled: !!strId && !!auth?.accessToken }
