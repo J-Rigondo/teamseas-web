@@ -27,7 +27,7 @@ const UserLoader = () => {
         const res = await refreshFunc();
         console.log("setting user", res);
         setUser(res);
-        graphQLClient.setHeader("authorization", `Bearer ${user?.accessToken}`);
+        // graphQLClient.setHeader("authorization", `Bearer ${user?.accessToken}`);
       } catch (e) {
         console.log(e);
         setUser({ accessToken: "", user: { username: "" } });
@@ -39,7 +39,7 @@ const UserLoader = () => {
     storePathValues();
   }, [router.asPath]);
 
-  //url로 접근 시 /posts/[id] 같은 형태
+  //url로 접근 시 asPath가 /posts/[id] 같은 형태, globalThis.location.pathname 사용 필요
   // useEffect(() => {
   //   console.log("router path", router.asPath);
   // }, [router.asPath]);
