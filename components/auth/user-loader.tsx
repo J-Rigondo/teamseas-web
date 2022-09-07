@@ -37,6 +37,11 @@ const UserLoader = () => {
 
   useEffect(() => {
     storePathValues();
+
+    const cookies = new Cookies();
+    if (globalThis.location.pathname !== "/login") {
+      cookies.set("prev_loc", globalThis.location.pathname, { path: "/" });
+    }
   }, [router.asPath]);
 
   //url로 접근 시 asPath가 /posts/[id] 같은 형태, globalThis.location.pathname 사용 필요
