@@ -4,27 +4,11 @@ import { FaUser } from "react-icons/fa";
 import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { getRecoil } from "recoil-nexus";
-import { graphQLClient } from "libs/gql/request";
-import { refreshFunc } from "../libs/api/auth";
-
-function storePathValues() {
-  const storage = globalThis?.sessionStorage;
-
-  if (!storage) return;
-
-  const prevPath = storage.getItem("currentPath") as string;
-
-  storage.setItem("prevPath", prevPath);
-  storage.setItem("currentPath", globalThis.location.pathname);
-}
 
 const Layout = ({ children }: React.PropsWithChildren<{}>) => {
   const [user, setUser] = useRecoilState(authAtom);
   const resetUser = useResetRecoilState(authAtom);
   const router = useRouter();
-
-  // useEffect(() => storePathValues, [router.asPath]);
 
   const onLogout = async () => {
     try {
@@ -33,8 +17,7 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
         {},
         { withCredentials: true }
       );
-      resetUser();
-      router.push("/");
+      setUser({ accessToken: "", user: { username: "" } });
     } catch (e) {
       console.log(e);
     }
